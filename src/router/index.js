@@ -1,16 +1,22 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import ListaIon from '../pages/Lista-ion.vue';
 
+
 const routes = [
   {
     path: '/',
     redirect: '/home'
-  },
+  },  
   {
     path: '/home',
     name: 'Home',
     component: ListaIon
-  }
+  },
+  {
+    path: '/contato/:id',
+    name: 'contato',
+    component: () => import('../pages/InformacoesContato.vue')
+  },
 ]
 
 const router = createRouter({
