@@ -17,6 +17,11 @@ const routes = [
     name: 'contato',
     component: () => import('../pages/InformacoesContato.vue')
   },
+  {
+    path: '/addcontato',
+    name: 'addcontato',
+    component: () => import('../pages/AdicionarContato.vue')
+  },
 ]
 
 const router = createRouter({

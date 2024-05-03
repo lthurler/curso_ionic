@@ -1,20 +1,26 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar color="primary"> 
-
-                <ion-buttons slot="start">
+            <ion-toolbar color="primary">
+                
+                <div id="bt">
+                    <ion-back-button :default-href="linkRetorno"></ion-back-button>
+                    <!-- <ion-button :router-link="`/home`" aria-label="back">
+                        <ion-icon :icon="arrowBackOutline" size="large" aria-hidden="true" color="#ffff"></ion-icon>
+                    </ion-button> -->
+                <!-- <ion-buttons slot="start">
                         <ion-back-button :default-href="linkRetorno"></ion-back-button> 
-                </ion-buttons>
+                </ion-buttons> -->
 
                 <ion-title>
-                    <ion-item color="primary">
+                    <div id="titulo">
                         <ion-thumbnail>
                             <ion-img alt="ronin logo" src="/src/img/ronin.jpg" />                            
                         </ion-thumbnail>
                         <p>{{ titulo }}</p>
-                    </ion-item>
+                    </div>                   
                 </ion-title>
+                </div>                
                 
             </ion-toolbar>
         </ion-header>
@@ -29,14 +35,16 @@
 
 
 <script>
-import { IonPage, IonHeader, IonTitle, IonContent, IonItem, IonToolbar, IonThumbnail, IonImg, IonButtons, IonBackButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonTitle, IonContent, IonToolbar, IonThumbnail, IonImg, IonBackButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     
     props: ["titulo", "linkRetorno"],  
     
-    components: { IonPage, IonHeader, IonTitle, IonContent, IonItem, IonToolbar, IonThumbnail, IonImg, IonButtons, IonBackButton},
+    components: { IonPage, IonHeader, IonTitle, IonContent, IonToolbar, IonThumbnail, IonImg, IonBackButton},
+    
+
   });
 </script>
 
@@ -46,30 +54,53 @@ export default defineComponent({
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box;    
+}
+
+ion-page {
+    background-color: #000000;
+}
+
+ion-header {
+    margin-bottom: 1rem;
 }
 
 ion-toolbar{
-    text-align: center;
+    display: flex;
     padding-bottom: 1rem;              
 }
 
-ion-title {
-    padding-top: 1rem;
-    padding-right: .5rem;          
+#bt {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
-ion-thumbnail {
-    --size: 3rem;
-    --border-radius: 50px;    
+ion-title {    
+    padding-top: 1rem;              
+}
+
+#titulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 p {
     padding-left: 10px;
 }
 
-ion-buttons {
-    padding-top: 1rem;
+ion-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+ion-back-button {
+    padding-top: .5rem;
 }
 
 </style>
