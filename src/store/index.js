@@ -46,10 +46,22 @@ const store = createStore({
         },
 
         encontrarContato: (state) => (id)=> {
-            const contatos = state.contatos;
+            let index = state.contatos.findIndex(contato => contato.id == id);
+            
+            return state.contatos[index];
+        },
 
-            return contatos[id-1];
+        salvarContato: (state) => (contato) => {
+            return state.contatos.push(contato);
+        },
+
+        excluirContato: (state) => (id) => {
+            let index = state.contatos.findIndex(contato => contato.id == id);
+            
+            return state.contatos.splice(index, 1);
+
         }
+
     }
 })
 

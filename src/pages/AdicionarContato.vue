@@ -30,43 +30,99 @@
 
 
 <script>
-import { Filesystem } from '@capacitor/filesystem';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { IonButton } from '@ionic/vue';
 
 export default {
- 
-    components: { IonButton },
 
-    methods: {
+components: { IonButton },
 
-        async onFileSelected(event) {
-            const file = event.target.file[0];
-            const reader = new FileReader();
+data() {
+return {
+nome: '',
+tel: '',
+foto: '',
+fileUri: '',
+fileName: ''
+}
+},
 
-            reader.onload = async () => {
-                const fileUri = reader.result;
-                const fileName = `${this.nome}.jpg`;
+methods: {
 
-                await this.savePhoto(fileUri, fileName);
-            };
+    async onFileSelected(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
-            reader.readAsDataURL(file);  
-        },
 
-        async savePhoto(fileUri, fileName) {
-            try {
-                const folderName = '/src/img';
+        reader.onload = async () => {
+        const fileUri = reader.result;
+        const id = this.$store.getters.retornarContatos.length + 1;
+        const fileName = `${id}.jpg`;
+        const folderName = '/src/img';
 
-                await Filesystem.writeFile({
-                    path: `${folderName}/${fileName}`,
-                    data: fileUri,
-                    // directory: FilesystemDirectory.Data                    
-                });
+        this.fileUri = fileUri;
+        this.fileName = fileName;
+        this.foto = `${folderName}/${fileName}`;
+        };
 
-            } catch (error) {
-                console.error('erro ao salvar a foto' , error);
+        reader.readAsDataURL(file);
+    },
+
+    async savePhoto() {
+        try {
+            const foto = this.foto;
+            const fileUri = this.fileUri;
+
+            if (!fileUri) {
+            throw new Error('File URI is empty');
             }
-        }        
+
+            const response = await fetch(fileUri);
+            if (!response.ok) {
+            throw new Error('Failed to fetch file');
+            }
+
+            const blob = await response.blob();
+            if (!blob || blob.size === 0) {
+            throw new Error('Blob is empty');
+            }
+
+            await Filesystem.mkdir({
+            path: foto.substring(0, foto.lastIndexOf('/')),
+            directory: Directory.Data,
+            recursive: true
+            });
+
+            await Filesystem.writeFile({
+                path: foto,
+                data: blob,
+                directory: Directory.Data
+            });
+
+        } catch (error) {
+            console.error('erro ao salvar a foto', error);
+        }   
+    },
+
+    async salvarContato() {
+        const contato = {
+            id: this.$store.getters.retornarContatos.length + 1,
+            nome: this.nome,
+            foto: this.foto,
+            telefone: this.tel
+        }
+
+        this.$store.getters.salvarContato(contato);
+
+        await this.savePhoto();
+
+        this.nome = '';
+        this.tel = '';
+        this.foto = '';
+        this.fileUri = '';
+        this.fileName = '';
+        this.$router.push('/home');
+        }
     }
 }
 

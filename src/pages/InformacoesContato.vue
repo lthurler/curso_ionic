@@ -10,18 +10,21 @@
             </div>
         </div>
 
+        <ExcluirContato :contatoId="contatoId" />
+
     </layout-padrao>
 
     
 </template>
 
 <script>
+import ExcluirContato from '../pages/ExcluirContato.vue';
 import {  } from '@ionic/vue';
 
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    components: { },
+    components: { ExcluirContato },
 
     data() {
         return {
@@ -32,6 +35,12 @@ export default defineComponent({
     computed: {
         carregarContato() {
             return this.$store.getters.encontrarContato(this.contatoId)
+        }
+    },
+
+    watch: {
+        $route(newRoute) {
+            this.contatoId = newRoute.params.id;
         }
     }
 

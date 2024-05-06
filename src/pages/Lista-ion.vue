@@ -22,7 +22,7 @@
 
         </ion-list>
 
-        <ion-button expand="full" color="sucess" :router-link="`/addcontato`" aria-label="add"> 
+        <ion-button expand="full" color="sucess" aria-label="add" @click="addContato"> 
             <ion-icon :icon="add" size="large" aria-hidden="true" color="#ffff"></ion-icon>
         </ion-button>
 
@@ -46,7 +46,14 @@ export default defineComponent({
         contatos() {
             return this.$store.getters.retornarContatos;            
         }
+    },
+
+    methods: {
+        addContato() {
+            this.$router.push('/addcontato');
+        }
     }
+
  });
 
 </script>

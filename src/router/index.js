@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/addcontato',
     name: 'addcontato',
-    component: () => import('../pages/AdicionarContato.vue')
+    component: () => import("../pages/AdicionarContato.vue"),
   },
 ]
 
